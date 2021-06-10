@@ -7,11 +7,11 @@ It will listen on a fixed port 8090 and serve 2 patterns along with 2 handlers o
 
 ## Project's tree
 ```
->├── handlers
->│   ├── hello.go
->│   └── hi_with_simple_param.go
->├── server
->│   └── server.go
->├── README.md
->└── main.go
+├── handlers
+│   ├── hello.go
+│   └── hi_with_simple_param.go
+├── server
+│   └── server.go
+├── README.md
+└── main.go
 ```
