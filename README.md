@@ -5,6 +5,7 @@
 | Bui Van Truong  |   TFS - 02   |
 
 # Directory's tree
+```
 > tree --dirsfirst
 > ├── lec-01
 > ├── lec-02
@@ -26,3 +27,4 @@
 > │   │       └── main.go
 > │   └── reading
 > └── README.md
+```
