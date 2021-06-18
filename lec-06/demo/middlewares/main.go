@@ -12,7 +12,8 @@ func main() {
 	router := mux.NewRouter().StrictSlash(true)
 
 	// register handler to router
-	router.Methods(http.MethodGet).Path("/hello").HandlerFunc(helloHandler)
+	router.Methods(http.MethodGet).Path("/hello").
+		Handler(authenticateMiddleware(&HelloHandler{}))
 
 	// using middleware function
 	router.Use(contentTypeCheckingMiddleware)
@@ -22,6 +23,12 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+}
+
+type HelloHandler struct{}
+
+func (h *HelloHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "hello")
 }
 
 // http handler
@@ -38,6 +45,22 @@ func contentTypeCheckingMiddleware(next http.Handler) http.Handler {
 
 		if reqContentType != JsonContentType {
 			fmt.Fprintf(w, "request only allow content type application/json")
+			return
+		}
+
+		fmt.Fprintf(w, "hello again")
+
+		// main handler
+		next.ServeHTTP(w, r)
+	})
+}
+
+func authenticateMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		a := r.Header.Get("Authen")
+
+		if a != "123456" {
+			fmt.Fprintf(w, "invalid authen")
 			return
 		}
 

@@ -24,5 +24,7 @@ func main() {
 func helloHandler(w http.ResponseWriter, r *http.Request) {
 	reqContentType := r.Header.Get("Content-Type")
 
+	// w.Header().Set("Content-Type", "application/json")
+
 	fmt.Fprintf(w, "hello with content type %v", reqContentType)
 }

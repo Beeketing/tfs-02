@@ -12,7 +12,7 @@ func main() {
 	router := mux.NewRouter().StrictSlash(true)
 
 	// register handler to router
-	router.Methods(http.MethodGet).Path("/hi/{name:(?:\\w+)}").HandlerFunc(hiHandler)
+	router.Methods(http.MethodGet).Path("/hi/{id:(?:\\d+)}").HandlerFunc(hiHandler)
 
 	// serve router on port
 	err := http.ListenAndServe("0.0.0.0:8080", router)
@@ -23,6 +23,8 @@ func main() {
 
 func hiHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
+
+	fmt.Printf("vars %v", vars)
 
 	name := vars["name"]
 

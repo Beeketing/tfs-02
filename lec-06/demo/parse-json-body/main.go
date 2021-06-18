@@ -8,12 +8,22 @@ import (
 	"github.com/gorilla/mux"
 )
 
+type MemStore map[string]string
+
+func init() {
+	m := MemStore{}
+
+	m["hoang"] = "27"
+
+	fmt.Println(m)
+}
+
 func main() {
 	// create mux router
 	router := mux.NewRouter().StrictSlash(true)
 
 	// register handler to router
-	router.Methods(http.MethodPost).Path("/welcome").HandlerFunc(welcomeHandler)
+	router.Methods(http.MethodPost, http.MethodPut).Path("/welcome").HandlerFunc(welcomeHandler)
 
 	// serve router on port
 	err := http.ListenAndServe("0.0.0.0:8080", router)
