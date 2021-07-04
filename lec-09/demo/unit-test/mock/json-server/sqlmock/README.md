@@ -1,6 +1,6 @@
 # Project's Info
 
-Golang API Authen & More
+Unit test with github.com/DATA-DOG/go-sqlmock
 
 # Directory's tree
 
