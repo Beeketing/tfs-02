@@ -1,14 +1,7 @@
-import { createHttp } from "./services/http";
+import Vue from 'vue';
+import App from './App.vue';
 
-const btn = document.getElementById('btnRequest');
-const result = document.getElementById('result');
-const http = createHttp();
-if (btn) {
-  btn.addEventListener('click', () => {
-    http.get('https://jsonplaceholder.typicode.com/posts').then((data) => {
-      result.innerHTML = JSON.stringify(data);
-    }).catch((e) => {
-      result.innerHTML = e;
-    })
-  })
-}
+new Vue({
+  el: '#app',
+  render: (h) => h(App),
+});

@@ -77,9 +77,10 @@ function parseResponse(response, options = {}) {
           });
           break;
         default:
-          response.text().then((data) => {
+          response.json().then((data) => {
             resolve(data);
           });
+          break;
       }
       return;
     }
