@@ -18,6 +18,10 @@ function createContext() {
     config: {
       endpoint: '/',
     },
+    interceptors: {
+      request: [],
+      response: [],
+    },
   };
 }
 
@@ -60,7 +64,7 @@ function parseResponse(response, options = {}) {
           });
           break;
         default:
-          response.text().then((data) => {
+          response.json().then((data) => {
             resolve(data);
           });
       }
@@ -85,7 +89,12 @@ function createHttpInstance(config = {}) {
   const http = {
     request(url = '/', options = {}) {
       const reqUrl = url.indexOf('http') !== -1 ? url : `${config.endpoint}${url}`;
-      const reqInit = parseRequestOptions(options);
+      let reqInit = parseRequestOptions(options);
+      if (context.interceptors.request.length > 0) {
+        context.interceptors.request.forEach((fn) => {
+          reqInit = fn(reqInit);
+        });
+      }
       return fetch(reqUrl, reqInit)
         .then((response) => parseResponse(response, options))
         .catch((e) => Promise.reject(e));
@@ -95,6 +104,13 @@ function createHttpInstance(config = {}) {
     },
     post(url, options = {}) {
       return http.request(url, Object.assign(options, { method: METHODS.Post }));
+    },
+    interceptors: {
+      request: {
+        use(fn) {
+          context.interceptors.request.push(fn);
+        },
+      },
     },
   };
 
@@ -116,8 +132,26 @@ document.addEventListener('DOMContentLoaded', () => {
       userId: 1,
     };
 
+    http.interceptors.request.use((req) => {
+      if (!req.headers) {
+        req.headers = {};
+      }
+
+      req.headers['X-Shop-Token'] = 'OCG';
+      return req;
+    });
+
+    http.interceptors.request.use((req) => {
+      if (!req.headers) {
+        req.headers = {};
+      }
+
+      req.headers['X-Customer'] = 123;
+      return req;
+    });
+
     // Request
-    http.post('/posts', { body, responseType: RESPONSE_TYPES.Text }).then((response) => {
+    http.post('/posts', { body }).then((response) => {
       result.innerHTML = `<p>Result success: ${response}`;
     }).catch((e) => {
       result.innerHTML = `<p>Result error: ${JSON.stringify(e)}`;
