@@ -1,27 +1,17 @@
 <template>
-  <div class="main">
-    <ul>
-      <li>
-        <router-link :to="{ name: 'home' }">
-          Home
-        </router-link>
-      </li>
-      <li>
-        <router-link :to="{ name: 'product', params: { handle: 't-shirt-2021' } }">
-          T-shirt
-        </router-link>
-      </li>
-      <li>
-        <router-link :to="{ name: 'product', params: { handle: 'adidas' }, query: { variant_id: 1 } }">
-          Shoes
-        </router-link>
-      </li>
-    </ul>
-    <router-view />
-  </div>
+  <component :is="layout" />
 </template>
 <script>
 export default {
   name: 'App',
+  components: {
+    DefaultLayout: () => import('./layouts/Default.vue'),
+    AccountLayout: () => import('./layouts/Account.vue'),
+  },
+  computed: {
+    layout() {
+      return this.$route.meta.layout ? `${this.$route.meta.layout}-layout` : 'default-layout'
+    }
+  }
 };
 </script>

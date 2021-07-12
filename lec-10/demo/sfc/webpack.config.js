@@ -8,6 +8,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
+    publicPath: '/'
   },
   module: {
     rules: [
@@ -34,11 +35,19 @@ module.exports = {
           'sass-loader',
         ],
       },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        loader: 'file-loader',
+        options: {
+          publicPath: 'assets',
+          outputPath: 'assets'
+        }
+      },
     ],
   },
   devServer: {
     port: 8080,
-    contentBase: path.resolve(__dirname, 'public'),
+    historyApiFallback: true,
   },
   plugins: [
     new VueLoaderPlugin(),

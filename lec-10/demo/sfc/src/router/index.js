@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../pages/Home.vue';
-import Cart from '../pages/Cart.vue';
-import Product from '../pages/Product.vue';
+
+const Home = () => import('../pages/Home.vue');
+const Cart = () => import('../pages/Cart.vue');
+const Product = () => import('../pages/Product.vue');
 
 Vue.use(VueRouter);
 
@@ -21,7 +22,23 @@ const routes = [
     name: 'product',
     path: '/product/:handle',
     component: Product,
-  }
+  },
+  {
+    name: 'sign-in',
+    path: '/account/sign-in',
+    component: Home,
+    meta: {
+      layout: 'account'
+    }
+  },
+  {
+    name: 'sign-up',
+    path: '/account/sign-up',
+    component: Home,
+    meta: {
+      layout: 'account'
+    }
+  },
 ]
 
 const router = new VueRouter({
