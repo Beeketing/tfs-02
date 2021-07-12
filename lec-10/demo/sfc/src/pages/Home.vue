@@ -1,25 +1,31 @@
 <template>
-  <div
-    v-if="$store.state.product.products.length > 0"
-    class="product"
-  >
-    <product
-      v-for="product in $store.state.product.products"
-      :key="product.id"
-      :product="product"
-    />
+  <div>
+    <section class="section-wrap promo-banners pb-30">
+      <div class="container">
+        <div class="row">
+          <PromoBanner
+            title="her"
+            description="Best Selling Deals"
+            :image="bannerOne"
+          />
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 <script>
-import Product from '../components/Product.vue';
+import PromoBanner  from '../components/PromoBanner.vue';
+import bannerOne from '../../assets/img/shop/collection_1.jpg'
 
 export default {
   name: 'Home',
   components: {
-    Product,
+    PromoBanner,
   },
-  mounted() {
-    this.$store.dispatch('fetchProducts');
-  },
+  data() {
+    return {
+      bannerOne
+    }
+  }
 };
 </script>
